@@ -1,0 +1,8 @@
+export const host = 'http://api.croud.co'
+export const auth = '/auth'
+export const authchk = '/auth/chk'
+export const login = '/auth/login'
+export const register = '/auth/reg'
+export const pwd = '/auth/pwd'
+export const wechat = '/wechat'
+export const wxsta = '/wxsta'

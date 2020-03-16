@@ -21,17 +21,17 @@ const codeCallbackHandler = {
     401: () => {
         const path = window.location.pathname.toLowerCase()
         if (path !== login.path && path !== reg.path)
-            window.location = "/login"
+            window.location = login.path
     }
 }
 
 export default (code, t = 'info', m = '') => {
     const msg = message[t]
-    const ch = codeHandler[code] || m
+    const ch = codeHandler[code] || m || 0
     const call = codeCallbackHandler[code]
 
     if (msg && ch) msg(ch)
-    else if (msg && !call) msg(code)
+    else if (msg && !call && code) msg(code)
 
     if (call) call()
 }

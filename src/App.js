@@ -1,19 +1,19 @@
 import React from 'react';
 import './App.css';
 import { Layout, Menu, Avatar, Popover, Divider } from 'antd'
-import { LogoutOutlined } from '@ant-design/icons'
+import { LogoutOutlined, UserOutlined } from '@ant-design/icons'
 import { Route, Switch, Link, useLocation } from 'react-router-dom'
 import { root, login, reg, profile } from './router'
 import { nickname } from './util/auth-storage'
 
 const { Header, Content } = Layout
 
-const AvatarMenu = (
+const AvatarMenu = nickname => (
   <>
-    <div className="AvatarNickName">Hi, Ayioz</div>
+    <div className="AvatarNickName">Hi, {nickname}</div>
     <Divider className="AvatarDivider" />
-    <Link className="AvatarMenu" to={profile.path}>My Profile</Link>
-    <Link className="AvatarMenu" to={login.path}><LogoutOutlined /> LOGOUT</Link>
+    <Link className="AvatarMenu" to={profile.path}><UserOutlined /> My Profile</Link>
+    <Link className="AvatarMenu" style={{ color: '#e89191' }} to={login.path}><LogoutOutlined /> LOGOUT</Link>
   </>
 )
 
@@ -42,7 +42,7 @@ const App = props => {
             <Link to="/wechat">微信公众号</Link>
           </Menu.Item>
         </Menu>
-        <Popover content={AvatarMenu} placement="bottomRight" trigger="click">
+        <Popover content={AvatarMenu(nname)} placement="bottomRight" trigger="hover">
           <Avatar className="Avatar" size="large">
             {(nname[0] || 'O').toUpperCase()}
           </Avatar>

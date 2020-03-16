@@ -29,11 +29,15 @@ InsRequest.interceptors.request.use(options => {
 
 InsRequest.interceptors.response.use(response => {
     if (response.status === 200) {
-        const { code, msg } = response.data
-        if (code !== 200) {
-            codeHandler(code, 'warn', msg)
-        }
-        return response.data;
+        const isJson = response.headers['content-type'].includes('application/json;')
+        if (!isJson) return response
+
+        const resdata = 'arraybuffer' === response.request.responseType
+            ? JSON.parse(new TextDecoder('utf-8').decode(new Uint8Array(response.data))) : response.data
+        const { code, msg, data } = resdata
+        if (code === 200) return data
+
+        codeHandler(code, 'warn', msg)
     } else {
         codeHandler(response.status, 'warn')
     }

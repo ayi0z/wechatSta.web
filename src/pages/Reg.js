@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import { Form, Input, Button } from 'antd'
 import { MailOutlined, LockOutlined } from '@ant-design/icons'
@@ -7,14 +7,16 @@ import { register } from '../util/api'
 import { login } from '../router'
 
 export default props => {
+    const [loading, setLoading] = useState(0)
     let history = useHistory()
     const SubmitHandler = async values => {
-        await post(register, values)
-            .then(res => {
-                if (res.code === 200) {
-                    history.push(login.path)
-                }
-            })
+        setLoading(1)
+        post(register, values).then(data => {
+            setLoading(0)
+            if (data) {
+                history.push(login.path)
+            }
+        })
     }
 
     return (
@@ -56,7 +58,7 @@ export default props => {
                         <Input />
                     </Form.Item>
                     <Form.Item>
-                        <Button block type="primary" htmlType="submit">Register</Button>
+                        <Button loading={loading} block type="primary" htmlType="submit">Register</Button>
                         <Link to={login.path} style={{ marginTop: 10, display: 'block', textAlign: 'center' }}>Login</Link>
                     </Form.Item>
                 </Form>

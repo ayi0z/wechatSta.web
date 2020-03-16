@@ -11,6 +11,7 @@
     "axios": "^0.19.2",
     "babel-plugin-import": "^1.13.0",
     "customize-cra": "^0.9.1",
+    "js-file-download": "^0.4.10",
     "qs": "^6.9.1",
     "react": "^16.13.0",
     "react-app-rewired": "^2.1.5",

@@ -7,8 +7,7 @@ const X_NICKNAME = 'x-nickname'
 
 export function authSave(token, nickname) {
     localStorage.setItem(X_AUTH_TOKEN, token)
-    if (nickname)
-        localStorage.setItem(X_NICKNAME, nickname)
+    localStorage.setItem(X_NICKNAME, nickname)
 }
 
 export function authClear() {
@@ -18,6 +17,10 @@ export function authClear() {
 
 export function authtoken() {
     return localStorage.getItem(X_AUTH_TOKEN)
+}
+
+export function nicknameSave(nickname) {
+    localStorage.setItem(X_NICKNAME, nickname)
 }
 
 export function nickname() {

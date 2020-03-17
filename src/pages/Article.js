@@ -54,7 +54,7 @@ const columns = [
 export default props => {
     return (
         <div style={{ padding: '0 30px' }}>
-            <WechatSta columns={columns} dataapi={article} xlsxapi={articlexlsx} />
+            <WechatSta sta="article" columns={columns} dataapi={article} xlsxapi={articlexlsx} />
         </div>
     )
 }

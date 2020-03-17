@@ -56,7 +56,7 @@ const DataTable = props => {
 }
 
 export default props => {
-    const { dataapi, xlsxapi, columns } = props
+    const { dataapi, xlsxapi, columns, sta } = props
 
     const [wechatList, setWechatList] = useState([])
     const [activeWechatId, setActiveWechatId] = useState(0)
@@ -83,7 +83,7 @@ export default props => {
         get(`${xlsxapi}/${activeWechatId}`, { params: date, responseType: 'arraybuffer' }).then(res => {
             if (res) {
                 let blob = new Blob([res.data], { type: res.headers['content-type'] })
-                filedownload(blob, `export_fans_${date.begin_date}_${date.end_date}.xlsx`)
+                filedownload(blob, `export_${sta}_${date.begin_date}_${date.end_date}.xlsx`)
             }
         })
     }

@@ -64,3 +64,11 @@
   flex-flow: column;
   align-items: center;
 }
+
+.ant-table-small{
+  font-size: 12px !important;
+}
+
+.ant-picker-range:hover .ant-picker-clear{
+  background: transparent;
+}

@@ -72,3 +72,18 @@
 .ant-picker-range:hover .ant-picker-clear{
   background: transparent;
 }
+
+.Tips{
+  font-size: 12px;
+  text-align: center;
+  margin: 30px auto;
+}
+.Tips ul{
+  list-style: decimal;
+  display:inline-block;
+  text-align:left;
+}
+.Tips b{
+  color: #f77676;
+  text-decoration: underline;
+}

@@ -23,7 +23,7 @@ InsRequest.interceptors.request.use(options => {
         }
     }
 }, error => {
-    console.log('interceptors.request.error: ', error);
+    console.log('interceptors.request.Err: ', error);
     return Promise.reject(error);
 })
 
@@ -35,14 +35,18 @@ InsRequest.interceptors.response.use(response => {
         const resdata = 'arraybuffer' === response.request.responseType
             ? JSON.parse(new TextDecoder('utf-8').decode(new Uint8Array(response.data))) : response.data
         const { code, msg, data } = resdata
-        if (code === 200) return data
+        if (code === 200) {
+            if (response.config.method === 'put' || response.config.method === 'post')
+                codeHandler(code, 'success', '成功')
+            return data
+        }
 
         codeHandler(code, 'warn', msg)
     } else {
         codeHandler(response.status, 'warn')
     }
 }, error => {
-    console.log('interceptors.response.error: ', { error });
+    console.log('interceptors.response.Err: ', error);
     if (error.response) codeHandler(error.response.status, 'warn')
     return Promise.reject(error);
 })

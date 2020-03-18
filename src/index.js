@@ -10,9 +10,9 @@ import { login, reg } from './router'
 AuthChk()
 
 ReactDOM.render(<Router>
-    <App />
     <Route exact path={login.path} component={login.component} />
     <Route exact path={reg.path} component={reg.component} />
+    <App />
 </Router>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

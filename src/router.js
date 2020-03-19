@@ -7,6 +7,7 @@ import Article from './pages/Article'
 import Login from './pages/Login'
 import Reg from './pages/Reg'
 import Profile from './pages/Profile'
+import WxOnline from './pages/WxOnline'
 
 export const notfound = { path: '*', component: NotFound }
 export const welcome = { path: '/', component: Welcome }
@@ -14,11 +15,12 @@ export const wechat = { path: '/wechat', component: WeChat }
 export const fans = { path: '/fans', component: Fans }
 export const article = { path: '/article', component: Article }
 export const profile = { path: '/profile', component: Profile }
+export const wxonline = { path: '/wxonline', component: WxOnline }
 
 export const root = {
     path: '/',
     component: App,
-    children: [welcome, wechat, fans, article, profile, notfound]
+    children: [welcome, wechat, fans, article, profile, wxonline, notfound]
 }
 export const login = { path: '/login', component: Login }
 export const reg = { path: '/reg', component: Reg }

@@ -3,7 +3,7 @@ import './App.css';
 import { Layout, Menu, Avatar, Popover, Divider } from 'antd'
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons'
 import { Route, Switch, Link, useLocation } from 'react-router-dom'
-import { root, login, reg, profile, article, fans, wechat } from './router'
+import { root, login, reg, profile, article, fans, wechat, wxonline } from './router'
 import { nickname } from './util/auth-storage'
 
 const { Header, Content } = Layout
@@ -40,6 +40,9 @@ const App = props => {
           </Menu.Item>
           <Menu.Item key={wechat.path}>
             <Link to={wechat.path}>微信公众号</Link>
+          </Menu.Item>
+          <Menu.Item key={wxonline.path}>
+            <Link to={wxonline.path}>公众号在线</Link>
           </Menu.Item>
         </Menu>
         <Popover content={AvatarMenu(nname)} placement="bottomRight" trigger="hover">

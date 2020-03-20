@@ -46,8 +46,8 @@ const columns = [
     },
     {
         title: '全文阅读完成率',
-        dataIndex: 'target_user',
-        key: 'target_user',
+        dataIndex: 'read_percent',
+        key: 'read_percent',
     },
 ]
 

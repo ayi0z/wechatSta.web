@@ -57,6 +57,7 @@ const WechatCard = props => {
         <Card hoverable style={{ margin: '10px auto', width: 500, borderRadius: 3 }}
             actions={WechatCheck()}>
             <Descriptions column={1} bordered size="small" title={<WechatCardTitle title={wechat.name} mail={mail} status={status} />}>
+                <Descriptions.Item label="微信号">{wechat.wechatname}</Descriptions.Item>
                 <Descriptions.Item label="AppID">{wechat.appid}</Descriptions.Item>
                 <Descriptions.Item label="AppSecret">{wechat.appsecret}</Descriptions.Item>
             </Descriptions>
@@ -112,6 +113,10 @@ export default props => {
                 <Form form={form} layout="vertical" onFinish={SubmitHandler}>
                     < Form.Item label="id" name="id" noStyle >
                         <Input style={{ display: 'none' }} />
+                    </Form.Item>
+                    <Form.Item name="wechatname" label="微信号" hasFeedback
+                        rules={[{ required: true, message: 'Please input 微信号!' }]}>
+                        <Input />
                     </Form.Item>
                     <Form.Item name="name" label="Name" hasFeedback
                         rules={[{ required: true, message: 'Please input wechat name!' }]}>

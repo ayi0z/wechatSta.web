@@ -45,7 +45,7 @@ const DataTable = props => {
     return (
         <Table size="small"
             style={{ fontSize: 12 }}
-            rowKey="日期"
+            rowKey="rowno"
             pagination={pagination}
             columns={columns}
             dataSource={dataList}

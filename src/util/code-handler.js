@@ -33,5 +33,7 @@ export default (code, t = 'info', m = '') => {
     if (msg && ch) msg(ch)
     else if (msg && !call && code) msg(code)
 
+    if (ch) console.info(code, ch)
+
     if (call) call()
 }

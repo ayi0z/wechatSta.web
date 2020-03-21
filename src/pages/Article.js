@@ -16,8 +16,8 @@ const columns = [
     },
     {
         title: '图文位置',
-        dataIndex: 'msgindex',
-        key: 'msgindex',
+        dataIndex: 'itemidx',
+        key: 'itemidx',
     },
     {
         title: '阅读量',
@@ -31,13 +31,13 @@ const columns = [
     },
     {
         title: '留言数',
-        dataIndex: 'comment_count',
-        key: 'comment_count',
+        dataIndex: 'comment_num',
+        key: 'comment_num',
     },
     {
         title: '好看数',
-        dataIndex: 'like_count',
-        key: 'like_count',
+        dataIndex: 'like_num',
+        key: 'like_num',
     },
     {
         title: '收藏数',

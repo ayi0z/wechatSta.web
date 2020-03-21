@@ -42,7 +42,7 @@ const App = props => {
             <Link to={wechat.path}>微信公众号</Link>
           </Menu.Item>
           <Menu.Item key={wxonline.path}>
-            <Link to={wxonline.path}>公众号在线</Link>
+            <Link to={wxonline.path}>公众号平台</Link>
           </Menu.Item>
         </Menu>
         <Popover content={AvatarMenu(nname)} placement="bottomRight" trigger="hover">

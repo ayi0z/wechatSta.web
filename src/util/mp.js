@@ -82,8 +82,11 @@ const ReqWechatArticleHandler = {
             finish_reader_num,
             share_num,
             target_user: target_user || 0
+        }).then(res => {
+            if (res * 1) {
+                ReqArticleData()
+            }
         })
 
-        ReqArticleData()
     }
 }

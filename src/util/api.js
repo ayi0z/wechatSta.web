@@ -1,4 +1,4 @@
-export const host = 'http://api.croud.co'
+export const host = 'http://wxstaapi.ayioz.com'
 export const auth = '/auth'
 export const authchk = '/auth/chk'
 export const login = '/auth/login'

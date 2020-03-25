@@ -1,15 +1,46 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Tabs, Button, DatePicker } from 'antd'
-import { get } from '../util/request'
-import { wechat as wechatApi } from '../util/api'
+import { Table, Tabs, Button, DatePicker, Popover } from 'antd'
+import { get, post } from '../util/request'
+import { wechat as wechatApi, wxsta } from '../util/api'
 import dayjs from 'dayjs'
 import filedownload from 'js-file-download'
+import LineChart from './LineChart'
+import IntervalChart from './IntervalChart'
+import { WarningOutlined, DownloadOutlined } from '@ant-design/icons'
 
 const { TabPane } = Tabs
 const { RangePicker } = DatePicker
 
+const charts = {
+    line: (chart, dataList) => (<LineChart chart={chart} dataList={dataList} />),
+    interval: (chart, dataList) => (<IntervalChart chart={chart} dataList={dataList} />)
+}
+
+const staCmds = {
+    fans: (wechatid, date) => {
+        let begin_date = dayjs(date.begin_date) || dayjs().add(-6, 'd'),
+            end_date = dayjs(date.end_date) || dayjs()
+        begin_date = end_date.diff(begin_date, 'd') > 6 ? end_date.clone().add(-6, 'd') : begin_date
+        post(`${wxsta}`, {
+            wechatid,
+            begin_date: begin_date.format('YYYY-MM-DD'),
+            end_date: end_date.format('YYYY-MM-DD'),
+            stas: ['usersummary', 'usercumulate']
+        })
+    },
+    article: (wechatid, date) => {
+        let end_date = dayjs(date.end_date) || dayjs()
+        post(`${wxsta}`, {
+            wechatid,
+            begin_date: end_date.format('YYYY-MM-DD'),
+            end_date: end_date.format('YYYY-MM-DD'),
+            stas: ['articletotal']
+        })
+    },
+}
+
 const DataTable = props => {
-    const { wechat, date, columns, dataapi } = props
+    const { chart, wechat, date, columns, dataapi } = props
     const [dataList, setDataList] = useState([])
     const [loading, setLoading] = useState(0)
     const [pagination, setPagination] = useState({
@@ -43,20 +74,23 @@ const DataTable = props => {
     }
 
     return (
-        <Table size="small"
-            style={{ fontSize: 12 }}
-            rowKey="rowno"
-            pagination={pagination}
-            columns={columns}
-            dataSource={dataList}
-            loading={loading}
-            onChange={tableChangeHandler}
-        />
+        <>
+            {chart && dataList && dataList.length ? charts[chart.type](chart, dataList) : null}
+            <Table size="small"
+                style={{ fontSize: 12 }}
+                rowKey="rowno"
+                pagination={pagination}
+                columns={columns}
+                dataSource={dataList}
+                loading={loading}
+                onChange={tableChangeHandler}
+            />
+        </>
     )
 }
 
 export default props => {
-    const { dataapi, xlsxapi, columns, sta } = props
+    const { dataapi, xlsxapi, columns, sta, chart } = props
 
     const [wechatList, setWechatList] = useState([])
     const [activeWechatId, setActiveWechatId] = useState(0)
@@ -88,6 +122,11 @@ export default props => {
         })
     }
 
+    const syncWechatHandler = () => {
+        const cmd = staCmds[sta]
+        if (cmd) cmd(activeWechatId, date)
+    }
+
     return (
         <Tabs defaultActiveKey={`${activeWechatId}`}
             size="small"
@@ -101,12 +140,15 @@ export default props => {
                         'This Week': [dayjs().startOf('week'), dayjs().endOf('week')],
                         'This Month': [dayjs().startOf('month'), dayjs().endOf('month')],
                     }} />
-                <Button type="link" onClick={downloadHandler}>Download xlsx</Button>
+                <Button type="link" onClick={downloadHandler}>Download xlsx<sup><DownloadOutlined /></sup></Button>
+                <Popover content={<div style={{padding:10, fontSize:12}}>微信平台对公众号接口每日调用次数有严格限制，如非必要请谨慎使用此功能。</div>} trigger="hover">
+                    <Button type="link" danger onClick={syncWechatHandler}><WarningOutlined />Sync Wechat</Button>
+                </Popover>
             </>}>
             {
                 wechatList.map(c => (
                     <TabPane tab={c.name} key={c.id}>
-                        <DataTable dataapi={dataapi} columns={columns} date={date} wechat={c} />
+                        <DataTable chart={chart} dataapi={dataapi} columns={columns} date={date} wechat={c} />
                     </TabPane>
                 ))
             }

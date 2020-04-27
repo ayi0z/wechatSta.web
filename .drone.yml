@@ -18,7 +18,7 @@ pipeline:
     pull: true
     privileged: true
     environment:
-    - DOCKER_REPO=245542037479.dkr.ecr.eu-west-2.amazonaws.com/croudtech-agency/iwg/wechat-data-extractor
+    - DOCKER_REPO=245542037479.dkr.ecr.eu-west-2.amazonaws.com/croudtech-agency/wechat-data-extractor
     - PROTECTED_FILES_LOCATION=/public/protected-files
     - PUBLIC_FOLDER=/public
     when:
@@ -27,7 +27,7 @@ pipeline:
       - push
   publish-ecr:
     image: croudtech/drone-docker-ecr:latest
-    repo: 245542037479.dkr.ecr.eu-west-2.amazonaws.com/croudtech-agency/iwg/wechat-data-extractor
+    repo: 245542037479.dkr.ecr.eu-west-2.amazonaws.com/croudtech-agency/wechat-data-extractor
     registry: 245542037479.dkr.ecr.eu-west-2.amazonaws.com
     region: eu-west-2
     pull: true
@@ -45,7 +45,7 @@ pipeline:
       event: deployment
       environment: blue
     environment:
-    - REPO=245542037479.dkr.ecr.eu-west-2.amazonaws.com/croudtech-agency/iwg/wechat-data-extractor
+    - REPO=245542037479.dkr.ecr.eu-west-2.amazonaws.com/croudtech-agency/wechat-data-extractor
     - APP=wechat-data-extractor
     - NAMESPACE=stg-agency-iwg
     - CHART=croudtech-stable/croudtech-v3-service
@@ -61,7 +61,7 @@ pipeline:
       event:
       - push
     environment:
-    - REPO=245542037479.dkr.ecr.eu-west-2.amazonaws.com/croudtech-agency/iwg/wechat-data-extractor
+    - REPO=245542037479.dkr.ecr.eu-west-2.amazonaws.com/croudtech-agency/wechat-data-extractor
     - APP=wechat-data-extractor
     - DEFAULT_NAMESPACE=int-agency-iwg
     - CHART=croudtech-stable/croudtech-v3-service
@@ -78,7 +78,7 @@ pipeline:
       event:
       - tag
     environment:
-    - REPO=245542037479.dkr.ecr.eu-west-2.amazonaws.com/croudtech-agency/iwg/wechat-data-extractor
+    - REPO=245542037479.dkr.ecr.eu-west-2.amazonaws.com/croudtech-agency/wechat-data-extractor
     - APP=wechat-data-extractor
     - DEFAULT_NAMESPACE=stg-agency-iwg
     - CHART=croudtech-stable/croudtech-v3-service

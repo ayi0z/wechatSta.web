@@ -1,5 +1,6 @@
 // hack
-export const host = process.env.PUBLIC_URL || 'http://wxstaapi.ayioz.com'
+export const host = 'https://wechat-data-exporter.croud.tech'
+
 export const auth = '/auth'
 export const authchk = '/auth/chk'
 export const login = '/auth/login'

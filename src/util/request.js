@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { host } from './api'
-import { authtoken } from './auth-storage';
+import { authtoken, nicknameSave } from './auth-storage';
 import codeHandler from './code-handler'
 import qs from 'qs'
 
@@ -31,6 +31,9 @@ InsRequest.interceptors.response.use(response => {
     if (response.status === 200) {
         const isJson = response.headers['content-type'].includes('application/json;')
         if (!isJson) return response
+
+        const nickname = response.headers['x-nickname']
+        nickname && nicknameSave(nickname)
 
         const resdata = 'arraybuffer' === response.request.responseType
             ? JSON.parse(new TextDecoder('utf-8').decode(new Uint8Array(response.data))) : response.data

@@ -17,40 +17,44 @@ const charts = {
 }
 
 const staCmds = {
-    fans: (wechatid, date) => {
+    fans: (wechatid, date, succes) => {
         let begin_date = dayjs(date.begin_date) || dayjs().add(-6, 'd'),
             end_date = dayjs(date.end_date) || dayjs()
         begin_date = end_date.diff(begin_date, 'd') > 6 ? end_date.clone().add(-6, 'd') : begin_date
-        post(`${wxsta}`, {
+        post(wxsta, {
             wechatid,
             begin_date: begin_date.format('YYYY-MM-DD'),
             end_date: end_date.format('YYYY-MM-DD'),
             stas: ['usersummary', 'usercumulate']
+        }).then(() => {
+            succes && succes()
         })
     },
-    article: (wechatid, date) => {
+    article: (wechatid, date, succes) => {
         let end_date = dayjs(date.end_date) || dayjs()
-        post(`${wxsta}`, {
+        post(wxsta, {
             wechatid,
             begin_date: end_date.format('YYYY-MM-DD'),
             end_date: end_date.format('YYYY-MM-DD'),
             stas: ['articletotal']
+        }).then(() => {
+            succes && succes()
         })
     },
 }
 
 const DataTable = props => {
-    const { chart, wechat, date, columns, dataapi } = props
+    const { chart, wechat, date, columns, dataapi, reload } = props
     const [dataList, setDataList] = useState([])
-    const [loading, setLoading] = useState(0)
+    const [loading, setLoading] = useState(false)
     const [pagination, setPagination] = useState({
         hideOnSinglePage: true,
         pageSize: 20,
         current: 1
     })
 
-    const syncFansList = () => {
-        setLoading(1)
+    useEffect(() => {
+        setLoading(true)
         get(`${dataapi}/${wechat.id}`, {
             params: {
                 pageSize: pagination.pageSize,
@@ -58,18 +62,16 @@ const DataTable = props => {
                 ...date
             }
         }).then(data => {
-            setLoading(0)
+            setLoading(false)
             if (data) {
                 const { rows, rowsCount } = data
                 setDataList(rows || [])
                 setPagination({ ...pagination, total: rowsCount })
             }
         })
-    }
+    }, [wechat.id, pagination.pageSize, pagination.current, date, reload])
 
-    useEffect(syncFansList, [wechat.id, pagination.pageSize, pagination.current, date])
-
-    const tableChangeHandler = (page) => {
+    const handlerTableChange = (page) => {
         setPagination({ ...pagination, current: page.current })
     }
 
@@ -83,7 +85,7 @@ const DataTable = props => {
                 columns={columns}
                 dataSource={dataList}
                 loading={loading}
-                onChange={tableChangeHandler}
+                onChange={handlerTableChange}
             />
         </>
     )
@@ -92,12 +94,14 @@ const DataTable = props => {
 export default props => {
     const { dataapi, xlsxapi, columns, sta, chart } = props
 
+    const [loading, setLoading] = useState(false)
     const [wechatList, setWechatList] = useState([])
     const [activeWechatId, setActiveWechatId] = useState(0)
     const [date, setDate] = useState({
         begin_date: dayjs().add(-7, 'd').format('YYYY-MM-DD'),
         end_date: dayjs().add(-1, 'd').format('YYYY-MM-DD')
     })
+    const [reload, setReload] = useState(0)
 
     const syncWechatList = () => {
         get(wechatApi).then(data => {
@@ -124,7 +128,11 @@ export default props => {
 
     const syncWechatHandler = () => {
         const cmd = staCmds[sta]
-        if (cmd) cmd(activeWechatId, date)
+        setLoading(true)
+        if (cmd) cmd(activeWechatId, date, () => {
+            setLoading(false)
+            setReload(reload + 1)
+        })
     }
 
     return (
@@ -141,14 +149,14 @@ export default props => {
                         'This Month': [dayjs().startOf('month'), dayjs().endOf('month')],
                     }} />
                 <Button type="link" onClick={downloadHandler}>Download xlsx<sup><DownloadOutlined /></sup></Button>
-                <Popover content={<div style={{padding:10, fontSize:12}}>微信平台对公众号接口每日调用次数有严格限制，如非必要请谨慎使用此功能。</div>} trigger="hover">
-                    <Button type="link" danger onClick={syncWechatHandler}><WarningOutlined />Sync Wechat</Button>
+                <Popover content={<div style={{ padding: 10, fontSize: 12 }}>微信平台对公众号接口每日调用次数有严格限制，如非必要请谨慎使用此功能。</div>} trigger="hover">
+                    <Button type="link" loading={loading} danger onClick={syncWechatHandler}><WarningOutlined />Sync Wechat</Button>
                 </Popover>
             </>}>
             {
                 wechatList.map(c => (
                     <TabPane tab={c.name} key={c.id}>
-                        <DataTable chart={chart} dataapi={dataapi} columns={columns} date={date} wechat={c} />
+                        <DataTable chart={chart} dataapi={dataapi} columns={columns} date={date} wechat={c} reload={reload} />
                     </TabPane>
                 ))
             }

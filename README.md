@@ -1,3 +1,9 @@
 ## API: [wechatSta](https://github.com/ayi0z/wechatSta)
 
-1. set api -> ```/src/util/api.js : host=[http://wxstaapi.ayioz.com]```
+1. set the environment variable: 
+```javascript
+// .env
+REACT_APP_API_HOST=<the back-end API service>
+```
+
+2. build:  `yarn build`

@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
 import { Layout, Menu, Avatar, Popover, Divider } from 'antd'
-import { LogoutOutlined, UserOutlined } from '@ant-design/icons'
+import { UserOutlined } from '@ant-design/icons'
 import { Route, Switch, Link, useLocation } from 'react-router-dom'
-import { root, login, reg, profile, article, fans, wechat, wxonline } from './router'
+import { root, profile, article, fans, wechat, wxonline } from './router'
 import { nickname } from './util/auth-storage'
 
 const { Header, Content } = Layout
@@ -13,14 +13,12 @@ const AvatarMenu = nickname => (
     <div className="AvatarNickName">Hi, {nickname}</div>
     <Divider className="AvatarDivider" />
     <Link className="AvatarMenu" to={profile.path}><UserOutlined /> My Profile</Link>
-    <Link className="AvatarMenu" style={{ color: '#e89191' }} to={login.path}><LogoutOutlined /> LOGOUT</Link>
   </>
 )
 
 const App = props => {
   const nname = nickname() || 'O'
   let path = useLocation().pathname.toLowerCase()
-  if (path === login.path || path === reg.path) return (null)
 
   return (
     <Layout className="Layout">
@@ -47,7 +45,7 @@ const App = props => {
         </Menu>
         <Popover content={AvatarMenu(nname)} placement="bottomRight" trigger="hover">
           <Avatar className="Avatar" size="large">
-            {(nname[0] || 'O').toUpperCase()}
+            {(nname[0]).toUpperCase()}
           </Avatar>
         </Popover>
       </Header>

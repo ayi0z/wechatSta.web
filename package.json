@@ -16,7 +16,6 @@
     "react-scripts": "3.4.0"
   },
   "scripts": {
-    "dev": "REACT_APP_API_HOST='http://wxstaapi.ayioz.co' react-app-rewired start",
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",

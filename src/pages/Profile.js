@@ -1,28 +1,29 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Form, Input, Button } from 'antd'
 import { MailOutlined } from '@ant-design/icons'
 import { get, put } from '../util/request'
 import { auth } from '../util/api'
+import { NicknameContext } from '../util/context'
 
 const Profile = props => {
     const [form] = Form.useForm()
-    const [loading, setLoading] = useState(1)
+    const [loading, setLoading] = useState(true)
+    const { setNickname } = useContext(NicknameContext)
 
-    const sycnProfile = () => {
+    useEffect(() => {
         get(auth).then(data => {
-            setLoading(0)
+            setLoading(false)
             if (data) {
                 form.setFieldsValue(data)
             }
         })
-    }
-
-    useEffect(sycnProfile, [])
+    }, [])
 
     const SubmitHandler = values => {
-        setLoading(1)
+        setLoading(true)
         put(auth, values).then(data => {
-            setLoading(0)
+            setLoading(false)
+            setNickname && setNickname(values.nickname)
         })
     }
 

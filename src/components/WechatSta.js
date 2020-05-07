@@ -48,7 +48,6 @@ const DataTable = props => {
     const [dataList, setDataList] = useState([])
     const [loading, setLoading] = useState(false)
     const [pagination, setPagination] = useState({
-        hideOnSinglePage: true,
         pageSize: 20,
         current: 1
     })
@@ -66,10 +65,13 @@ const DataTable = props => {
             if (data) {
                 const { rows, rowsCount } = data
                 setDataList(rows || [])
-                setPagination({ ...pagination, total: rowsCount })
+                setPagination({
+                    ...pagination,
+                    total: rowsCount
+                })
             }
         })
-    }, [wechat.id, pagination.pageSize, pagination.current, date, reload])
+    }, [wechat.id, pagination.pageSize, pagination.current, date, reload, dataapi])
 
     const handlerTableChange = (page) => {
         setPagination({ ...pagination, current: page.current })
@@ -81,7 +83,7 @@ const DataTable = props => {
             <Table size="small"
                 style={{ fontSize: 12 }}
                 rowKey="rowno"
-                pagination={pagination}
+                pagination={{ ...pagination, hideOnSinglePage: true }}
                 columns={columns}
                 dataSource={dataList}
                 loading={loading}

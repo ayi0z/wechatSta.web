@@ -12,7 +12,9 @@ export default props => {
     }).flat()
 
     return (
-        <Chart height={300} data={dl} forceFit={true}>
+        <Chart height={300} data={dl} forceFit={true}
+            filter={[['title', (t) => (!chart.filter.includes(t))]]}
+        >
             <Legend />
             <Axis name="x" />
             <Axis name="y" />

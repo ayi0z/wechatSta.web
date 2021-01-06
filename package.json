@@ -6,7 +6,7 @@
     "@antv/data-set": "^0.11.1",
     "antd": "^4.0.2",
     "antd-dayjs-webpack-plugin": "^0.0.8",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bizcharts": "^3.5.8",
     "js-file-download": "^0.4.10",
     "qs": "^6.9.1",

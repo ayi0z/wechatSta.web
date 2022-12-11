@@ -9,7 +9,7 @@
     "axios": "^0.19.2",
     "bizcharts": "^3.5.8",
     "js-file-download": "^0.4.10",
-    "qs": "^6.9.1",
+    "qs": "^6.9.7",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-router-dom": "^5.1.2",
